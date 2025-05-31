@@ -33,3 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('companies', \App\Http\Controllers\CompanyController::class);
     Route::resource('tasks', \App\Http\Controllers\TaskController::class);
 });
+
+Route::get('/calendar', function () {
+    return view('calendar.index');
+})->name('calendar.index');

@@ -34,6 +34,13 @@
                             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-700"
                             placeholder="Password">
                     </div>
+                    <div>
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirm
+                            Password</label>
+                        <input id="password_confirmation" name="password_confirmation" type="password" required
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-700"
+                            placeholder="Confirm password">
+                    </div>
                     <div class="flex items-center">
                         <input id="terms" name="terms" type="checkbox"
                             class="h-4 w-4 text-green-700 focus:ring-green-700 border-gray-300 rounded">
@@ -75,6 +82,41 @@
                 alt="Leaf" class="object-cover w-full h-full rounded-l-3xl">
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let errorHtml = `{!! implode('<br>', $errors->all()) !!}`;
+                // Split errorHtml to count errors
+                let errorList = errorHtml.split('<br>');
+                let title = 'Registration Failed';
+                if (errorList.length === 1 && errorList[0]) {
+                    title = errorList[0];
+                    errorHtml = '';
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: title,
+                    html: errorHtml,
+                    confirmButtonColor: '#2563eb'
+                });
+            });
+        </script>
+    @endif
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Registration successful! Please login.',
+                    confirmButtonColor: '#2563eb'
+                }).then(function () {
+                    window.location.href = "{{ route('login') }}";
+                });
+            });
+        </script>
+    @endif
 </body>
 
 </html>

@@ -3,99 +3,29 @@
 @section('content')
     <!-- Quick Actions -->
     <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
-        <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
-        <div class="flex gap-2">
-            <a href="{{ route('jobs.create') }}"
-                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md font-semibold shadow hover:bg-blue-700 transition">
-                <i class="fa fa-plus mr-2"></i>Add Job
-            </a>
-            <button id="openAddTaskModal" type="button"
-                class="inline-flex items-center px-4 py-2 bg-green-700 text-white rounded-md font-semibold shadow hover:bg-green-800 transition"><i
-                    class="fa fa-tasks mr-2"></i>Add Task</button>
-        </div>
+        <h1 class="text-2xl font-bold text-gray-800">My Job Search Dashboard</h1>
     </div>
-    <!-- Add Job Modal -->
-    <div id="addJobModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-            <button id="closeAddJobModal" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700"><i
-                    class="fa fa-times text-xl"></i></button>
-            <h2 class="text-xl font-bold mb-4">Add Job</h2>
-            <form class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Position</label>
-                    <input type="text"
-                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                        placeholder="e.g. Frontend Developer">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Company</label>
-                    <input type="text"
-                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                        placeholder="e.g. Google">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Date Applied</label>
-                    <input type="date"
-                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                <button type="submit"
-                    class="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition">Save</button>
-            </form>
-        </div>
-    </div>
-    <!-- Add Task Modal -->
-    <div id="addTaskModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-            <button id="closeAddTaskModal" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700"><i
-                    class="fa fa-times text-xl"></i></button>
-            <h2 class="text-xl font-bold mb-4">Add Task</h2>
-            <form class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                    <input type="text"
-                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-700"
-                        placeholder="e.g. Follow up email">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                    <textarea
-                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-700"
-                        rows="2" placeholder="Task details..."></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Deadline</label>
-                    <input type="date"
-                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-700">
-                </div>
-                <button type="submit"
-                    class="w-full bg-green-700 text-white py-2 rounded-md font-semibold hover:bg-green-800 transition">Save</button>
-            </form>
-        </div>
-    </div>
+
     <!-- Summary Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white p-6 rounded-lg shadow flex flex-col items-start">
-            <div class="flex items-center mb-2"><i class="fa fa-briefcase text-blue-600 text-xl mr-2"></i><span
-                    class="text-gray-500">Total
-                    Jobs Applied</span></div>
+            <div class="flex items-center mb-2"><i class="fa fa-briefcase text-blue-600 text-xl mr-2"></i><span class="text-gray-500">Total Jobs Applied</span></div>
             <div class="text-2xl font-bold text-gray-800">{{ $totalJobs }}</div>
         </div>
         <div class="bg-white p-6 rounded-lg shadow flex flex-col items-start">
-            <div class="flex items-center mb-2"><i class="fa fa-calendar-check text-green-600 text-xl mr-2"></i><span
-                    class="text-gray-500">Interviews Scheduled</span></div>
+            <div class="flex items-center mb-2"><i class="fa fa-calendar-check text-green-600 text-xl mr-2"></i><span class="text-gray-500">Interviews Scheduled</span></div>
             <div class="text-2xl font-bold text-gray-800">{{ $interviews }}</div>
         </div>
         <div class="bg-white p-6 rounded-lg shadow flex flex-col items-start">
-            <div class="flex items-center mb-2"><i class="fa fa-handshake text-yellow-600 text-xl mr-2"></i><span
-                    class="text-gray-500">Offers Received</span></div>
+            <div class="flex items-center mb-2"><i class="fa fa-handshake text-yellow-600 text-xl mr-2"></i><span class="text-gray-500">Offers Received</span></div>
             <div class="text-2xl font-bold text-gray-800">{{ $offers }}</div>
         </div>
         <div class="bg-white p-6 rounded-lg shadow flex flex-col items-start">
-            <div class="flex items-center mb-2"><i class="fa fa-times-circle text-red-600 text-xl mr-2"></i><span
-                    class="text-gray-500">Jobs Rejected</span></div>
+            <div class="flex items-center mb-2"><i class="fa fa-times-circle text-red-600 text-xl mr-2"></i><span class="text-gray-500">Jobs Rejected</span></div>
             <div class="text-2xl font-bold text-gray-800">{{ $rejected }}</div>
         </div>
     </div>
+
     <!-- Progress & Chart -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <div class="bg-white p-6 rounded-lg shadow flex flex-col items-center justify-center">
@@ -111,6 +41,7 @@
             <canvas id="appsChart" height="100"></canvas>
         </div>
     </div>
+
     <!-- Upcoming Events & Recent Activity -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <!-- Upcoming Events -->
@@ -173,10 +104,10 @@
             </div>
         </div>
     </div>
+
     <!-- Motivational Quote -->
     <div class="bg-white p-6 rounded-lg shadow flex items-center justify-center text-center text-gray-600 text-lg italic">
-        "Success is not the key to happiness. Happiness is the key to success. If you love what you are
-        doing, you will be successful."
+        "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful."
     </div>
 @endsection
 @push('modals')

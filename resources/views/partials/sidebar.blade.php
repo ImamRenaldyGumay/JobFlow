@@ -44,7 +44,8 @@
                     class="fa fa-building mr-3"></i>Companies</a>
             <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"><i
                     class="fa fa-address-book mr-3"></i>Contacts</a>
-            <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"><i
+            <a href="{{ route('calendar.index') }}"
+                class="flex items-center px-4 py-2 {{ request()->is('calendar*') ? 'bg-blue-600 text-white font-semibold shadow-md' : 'text-gray-700 hover:bg-blue-50' }} rounded-lg"><i
                     class="fa fa-calendar-alt mr-3"></i>Calendar</a>
             <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"><i
                     class="fa fa-sticky-note mr-3"></i>Notes</a>

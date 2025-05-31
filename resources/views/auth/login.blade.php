@@ -13,6 +13,13 @@
         <!-- Left: Form -->
         <div class="flex-1 flex flex-col justify-center items-center px-4 sm:px-6 py-8 sm:py-12">
             <div class="w-full max-w-md">
+                @if(session('success'))
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 text-center"
+                        role="alert">
+                        <strong class="font-bold">Success!</strong>
+                        <span class="block sm:inline">{{ session('success') }}</span>
+                    </div>
+                @endif
                 <h2 class="text-3xl font-bold mb-8 text-gray-900">Welcome Back</h2>
                 <form class="space-y-5" action="{{ route('login') }}" method="POST">
                     @csrf
@@ -72,6 +79,74 @@
                 alt="Leaf" class="object-cover w-full h-full rounded-l-3xl">
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: @json(session('success')),
+                    confirmButtonColor: '#2563eb'
+                });
+            });
+        </script>
+    @endif
+    @if($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: @json($errors->first()),
+                    confirmButtonColor: '#2563eb'
+                });
+            });
+        </script>
+    @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Google button
+            const googleBtn = document.querySelector('button:has(img[alt="Google"])');
+            if (googleBtn) {
+                googleBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Not Available',
+                        text: 'This feature is not available yet.',
+                        confirmButtonColor: '#2563eb'
+                    });
+                });
+            }
+            // Apple button
+            const appleBtn = document.querySelector('button:has(svg)');
+            if (appleBtn) {
+                appleBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Not Available',
+                        text: 'This feature is not available yet.',
+                        confirmButtonColor: '#2563eb'
+                    });
+                });
+            }
+            // Forgot password link
+            const forgotLink = document.querySelector('a[href="#"]:not([tabindex="-1"])');
+            if (forgotLink) {
+                forgotLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Not Available',
+                        text: 'This feature is not available yet.',
+                        confirmButtonColor: '#2563eb'
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

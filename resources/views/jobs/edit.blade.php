@@ -46,10 +46,19 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Date Applied</label>
-                            <input type="date" name="date_applied" value="{{ old('date_applied', $job->date_applied) }}"
-                                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition @error('date_applied') border-red-500 @enderror">
+                            <div class="relative">
+                                <input type="text" name="date_applied"
+                                    class="edit-date-applied flatpickr-input w-full border border-gray-300 rounded-lg px-4 py-2 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition @error('date_applied') border-red-500 @enderror"
+                                    placeholder="Select date..."
+                                    value="{{ old('date_applied', $job->date_applied ? \Carbon\Carbon::parse($job->date_applied)->format('Y-m-d') : '') }}"
+                                    readonly>
+                                <span
+                                    class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
                             @error('date_applied')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         <div>
@@ -118,3 +127,57 @@
         </div>
     </div>
 @endsection
+
+@push('styles')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+    <style>
+        /* Date Input Styling */
+        .date-input-wrapper {
+            @apply relative;
+        }
+
+        .date-input-wrapper .flatpickr-input {
+            @apply pl-10;
+        }
+
+        .date-input-wrapper::before {
+            content: '\f073';
+            font-family: 'Font Awesome 5 Free';
+            @apply absolute left-3 top-1/2 -translate-y-1/2 text-gray-400;
+        }
+
+        .date-input-wrapper .flatpickr-input:focus {
+            @apply ring-2 ring-blue-500 border-blue-500;
+        }
+    </style>
+@endpush
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const today = new Date();
+            const oneYearAgo = new Date();
+            oneYearAgo.setFullYear(today.getFullYear() - 1);
+
+            flatpickr(".edit-date-applied", {
+                dateFormat: "Y-m-d",
+                maxDate: today,
+                minDate: oneYearAgo,
+                theme: "material_blue",
+                disableMobile: "true",
+                onChange: function (selectedDates, dateStr) {
+                    const selectedDate = selectedDates[0];
+                    if (selectedDate > today) {
+                        alert('Applied date cannot be in the future');
+                        this.setDate(today);
+                    } else if (selectedDate < oneYearAgo) {
+                        alert('Applied date cannot be more than 1 year ago');
+                        this.setDate(oneYearAgo);
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

@@ -18,7 +18,9 @@ class DashboardController extends Controller
         // Progress (target 30 jobs per bulan)
         $month = now()->format('m');
         $year = now()->format('Y');
-        $monthlyJobs = Job::whereYear('created_at', $year)->whereMonth('created_at', $month)->count();
+        $monthlyJobs = Job::whereYear('date_applied', $year)
+            ->whereMonth('date_applied', $month)
+            ->count();
         $progress = min(100, round($monthlyJobs / 30 * 100));
 
         // Chart: Applications per Month (6 bulan terakhir)
@@ -26,8 +28,10 @@ class DashboardController extends Controller
         for ($i = 5; $i >= 0; $i--) {
             $date = now()->subMonths($i);
             $appsPerMonth[] = [
-                'label' => $date->format('M'),
-                'count' => Job::whereYear('created_at', $date->year)->whereMonth('created_at', $date->month)->count(),
+                'label' => $date->translatedFormat('M'),
+                'count' => Job::whereYear('date_applied', $date->year)
+                    ->whereMonth('date_applied', $date->month)
+                    ->count(),
             ];
         }
 

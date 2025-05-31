@@ -9,7 +9,9 @@ class JobController extends Controller
 {
     public function index()
     {
-        $jobs = Job::orderBy('created_at', 'desc')->get();
+        $jobs = Job::orderBy('date_applied', 'desc')
+            ->paginate(10);
+
         return view('jobs.index', compact('jobs'));
     }
 
