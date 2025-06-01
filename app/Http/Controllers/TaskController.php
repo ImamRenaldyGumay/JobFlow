@@ -25,6 +25,9 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'deadline' => 'nullable|string',
             'status' => 'required|in:pending,in_progress,done',
+            'type' => 'required|string',
+            'location' => 'nullable|string',
+            'link' => 'nullable|string',
         ]);
         $validated['user_id'] = auth()->id();
         if ($request->filled('deadline')) {
@@ -44,6 +47,9 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'deadline' => 'nullable|string',
             'status' => 'required|in:pending,in_progress,done',
+            'type' => 'required|string',
+            'location' => 'nullable|string',
+            'link' => 'nullable|string',
         ]);
         $validated['user_id'] = auth()->id();
         if ($request->filled('deadline')) {
@@ -62,5 +68,25 @@ class TaskController extends Controller
             abort(403);
         }
         return view('tasks.show', compact('task'));
+    }
+
+    public function edit(Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            abort(403);
+        }
+        return view('tasks.edit', compact('task'));
+    }
+
+    public function destroy(Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $task->delete();
+
+        return redirect()->route('tasks.index')
+            ->with('success', 'Task deleted successfully!');
     }
 }

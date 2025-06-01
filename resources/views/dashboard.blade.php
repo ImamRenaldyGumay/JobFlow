@@ -45,25 +45,70 @@
     <!-- Upcoming Events & Recent Activity -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <!-- Upcoming Events -->
-        <div class="bg-white p-6 rounded-lg shadow flex flex-col col-span-1">
-            <div class="font-semibold mb-4">Upcoming Events</div>
-            <ul class="space-y-4">
-                @foreach($upcomingEvents as $event)
-                    <li class="flex items-center justify-between">
-                        <div>
-                            @if($event['type'] === 'Interview')
-                                <div class="font-semibold text-gray-800">Interview: {{ $event['position'] }}</div>
-                                <div class="text-gray-500 text-sm">at {{ $event['company'] }}</div>
-                                <div class="text-xs text-gray-400">{{ \Carbon\Carbon::parse($event['date'])->translatedFormat('l, d M Y') }}, {{ $event['time'] }}</div>
-                            @else
-                                <div class="font-semibold text-gray-800">Task: {{ $event['title'] }}</div>
-                                <div class="text-xs text-gray-400">{{ \Carbon\Carbon::parse($event['date'])->translatedFormat('l, d M Y') }}, {{ $event['time'] }}</div>
-                            @endif
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Upcoming Tasks</h2>
+            @if($upcomingTasks->count() > 0)
+                <div class="space-y-4">
+                    @foreach($upcomingTasks as $task)
+                        <div class="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition">
+                            <div class="flex-shrink-0">
+                                @switch($task->type)
+                                    @case('interview')
+                                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                            <i class="fa fa-video-camera text-blue-600"></i>
+                                        </div>
+                                        @break
+                                    @case('followup')
+                                        <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center">
+                                            <i class="fa fa-envelope text-yellow-600"></i>
+                                        </div>
+                                        @break
+                                    @case('assessment')
+                                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                                            <i class="fa fa-tasks text-purple-600"></i>
+                                        </div>
+                                        @break
+                                    @default
+                                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                                            <i class="fa fa-check text-green-600"></i>
+                                        </div>
+                                @endswitch
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-medium text-gray-900">{{ $task->title }}</h3>
+                                        <p class="text-sm text-gray-600">
+                                            {{ ucfirst($task->type) }}
+                                            @if($task->location)
+                                                • {{ $task->location }}
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm font-medium text-gray-900">
+                                            {{ \Carbon\Carbon::parse($task->deadline)->format('M d, Y') }}
+                                        </div>
+                                        <div class="text-sm text-gray-600">
+                                            {{ \Carbon\Carbon::parse($task->deadline)->format('h:i A') }}
+                                        </div>
+                                    </div>
+                                </div>
+                                @if($task->description)
+                                    <p class="mt-1 text-sm text-gray-600">{{ Str::limit($task->description, 100) }}</p>
+                                @endif
+                            </div>
                         </div>
-                        <span class="bg-{{ $event['type'] === 'Interview' ? 'green' : 'blue' }}-100 text-{{ $event['type'] === 'Interview' ? 'green' : 'blue' }}-700 px-2 py-1 rounded text-xs">{{ $event['type'] }}</span>
-                    </li>
-                @endforeach
-            </ul>
+                    @endforeach
+                </div>
+            @else
+                <div class="text-center py-8">
+                    <div class="text-gray-400 mb-2">
+                        <i class="fa fa-calendar text-4xl"></i>
+                    </div>
+                    <p class="text-gray-500">No upcoming tasks</p>
+                </div>
+            @endif
         </div>
         <!-- Recent Activity -->
         <div class="bg-white p-6 rounded-lg shadow flex flex-col col-span-2">

@@ -4,56 +4,66 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Job;
+use App\Models\Task;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Summary
-        $totalJobs = Job::count();
-        $interviews = Job::where('application_status', 'Interview')->count();
-        $offers = Job::where('application_status', 'Offer')->count();
-        $rejected = Job::where('application_status', 'Rejected')->count();
+        $user = auth()->user();
 
-        // Progress (target 30 jobs per bulan)
-        $month = now()->format('m');
-        $year = now()->format('Y');
-        $monthlyJobs = Job::whereYear('date_applied', $year)
-            ->whereMonth('date_applied', $month)
+        // Get job statistics
+        $totalJobs = Job::where('user_id', $user->id)->count();
+        $interviews = Task::where('user_id', $user->id)
+            ->where('type', 'interview')
+            ->where('deadline', '>=', Carbon::now())
+            ->where('status', '!=', 'done')
             ->count();
-        $progress = min(100, round($monthlyJobs / 30 * 100));
+        $offers = Job::where('user_id', $user->id)
+            ->where('application_status', 'Offer')
+            ->count();
+        $rejected = Job::where('user_id', $user->id)
+            ->where('application_status', 'Rejected')
+            ->count();
 
-        // Chart: Applications per Month (6 bulan terakhir)
-        $appsPerMonth = [];
-        for ($i = 5; $i >= 0; $i--) {
-            $date = now()->subMonths($i);
-            $appsPerMonth[] = [
-                'label' => $date->translatedFormat('M'),
-                'count' => Job::whereYear('date_applied', $date->year)
-                    ->whereMonth('date_applied', $date->month)
-                    ->count(),
-            ];
-        }
+        // Get monthly progress
+        $monthlyJobs = Job::where('user_id', $user->id)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->count();
+        $progress = min(($monthlyJobs / 30) * 100, 100);
 
-        // Recent Activity (4 terakhir)
-        $recentJobs = Job::orderBy('created_at', 'desc')->take(4)->get();
+        // Get recent jobs
+        $recentJobs = Job::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
 
-        // Upcoming Events (dummy, karena belum ada tabel Task/Event)
-        $upcomingEvents = [
-            [
-                'type' => 'Interview',
-                'position' => 'Frontend Developer',
-                'company' => 'Google',
-                'date' => now()->addDay()->format('Y-m-d'),
-                'time' => '10:00 AM',
-            ],
-            [
-                'type' => 'Task',
-                'title' => 'Follow up email',
-                'date' => now()->format('Y-m-d'),
-                'time' => '4:00 PM',
-            ],
-        ];
+        // Get upcoming tasks
+        $upcomingTasks = Task::where('user_id', $user->id)
+            ->where('deadline', '>=', Carbon::now())
+            ->where('status', '!=', 'done')
+            ->orderBy('deadline')
+            ->take(5)
+            ->get();
+
+        // Get applications per month for chart
+        $appsPerMonth = Job::where('user_id', $user->id)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->get()
+            ->groupBy(function ($job) {
+                return Carbon::parse($job->created_at)->format('M');
+            })
+            ->map(function ($jobs) {
+                return $jobs->count();
+            })
+            ->map(function ($count, $month) {
+                return [
+                    'label' => $month,
+                    'count' => $count
+                ];
+            })
+            ->values();
 
         return view('dashboard', compact(
             'totalJobs',
@@ -62,9 +72,9 @@ class DashboardController extends Controller
             'rejected',
             'progress',
             'monthlyJobs',
-            'appsPerMonth',
             'recentJobs',
-            'upcomingEvents'
+            'upcomingTasks',
+            'appsPerMonth'
         ));
     }
 }

@@ -53,14 +53,22 @@
                                     class="px-3 py-1 text-xs font-bold rounded-full {{ $badge }} shadow-sm border border-gray-200">{{ ucfirst(str_replace('_', ' ', $task->status)) }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap font-medium flex gap-2">
-                                <a href="{{ route('tasks.show', $task) }}" class="text-blue-600 hover:text-blue-900" title="View Details">
+                                <a href="{{ route('tasks.show', $task) }}" class="text-blue-600 hover:text-blue-900"
+                                    title="View Details">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                <a href="{{ route('tasks.edit', $task) }}" class="text-blue-600 hover:text-blue-900" title="Edit">
+                                <a href="{{ route('tasks.edit', $task) }}" class="text-blue-600 hover:text-blue-900"
+                                    title="Edit">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <button class="text-red-600 hover:text-red-900" title="Delete"><i
-                                        class="fa fa-trash"></i></button>
+                                <form action="{{ route('tasks.destroy', $task) }}" method="POST"
+                                    class="inline delete-task-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900" title="Delete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty
@@ -77,6 +85,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function () {
             $('#tasksTable').DataTable({
@@ -91,6 +100,26 @@
                     }
                 },
                 dom: '<"flex flex-wrap items-center justify-between gap-4 mb-4"lf>rt<"flex flex-wrap items-center justify-between gap-4 mt-4"ip>'
+            });
+        });
+
+        document.querySelectorAll('.delete-task-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
             });
         });
     </script>

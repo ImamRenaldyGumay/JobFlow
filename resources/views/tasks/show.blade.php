@@ -47,12 +47,11 @@
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         Edit
                     </a>
-                    <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline">
+                    <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline delete-task-form">
                         @csrf
                         @method('DELETE')
                         <button type="submit"
-                            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                            onclick="return confirm('Are you sure you want to delete this task?')">
+                            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                             Delete
                         </button>
                     </form>
@@ -61,3 +60,28 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.querySelectorAll('.delete-task-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\CalendarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,12 +32,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('jobs', \App\Http\Controllers\JobController::class);
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('jobs', JobController::class);
     Route::resource('companies', \App\Http\Controllers\CompanyController::class);
-    Route::resource('tasks', \App\Http\Controllers\TaskController::class);
+    Route::resource('tasks', TaskController::class);
+    Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
 });
-
-Route::get('/calendar', function () {
-    return view('calendar.index');
-})->name('calendar.index');
