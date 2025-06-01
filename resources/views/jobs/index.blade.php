@@ -44,12 +44,12 @@
                             @forelse($jobs as $job)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">{{ $job->position }}</div>
-                                        <div class="text-sm text-gray-500">{{ $job->location }}</div>
+                                        <div class="text-sm font-medium text-gray-900">{{ $job->position ?? '' }}</div>
+                                        <div class="text-sm text-gray-500">{{ $job->location ?? '' }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $job->company_name }}</div>
-                                        <div class="text-sm text-gray-500">{{ $job->applied_via }}</div>
+                                        <div class="text-sm text-gray-900">{{ $job->company_name ?? '' }}</div>
+                                        <div class="text-sm text-gray-500">{{ $job->applied_via ?? '' }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                         {{ $job->date_applied ? \Carbon\Carbon::parse($job->date_applied)->format('M d, Y') : 'N/A' }}
@@ -138,7 +138,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Applied Date</label>
                             <div class="date-input-wrapper">
-                                <input type="text" name="date_applied" id="date_applied"
+                                <input type="text" name="date_applied" id="date_applied_modal"
                                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                             </div>
                         </div>
@@ -332,55 +332,55 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('jobDetailsContent').innerHTML = `
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <h4 class="font-medium text-gray-700">Position</h4>
-                                        <p class="text-gray-900">${data.position}</p>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-medium text-gray-700">Company</h4>
-                                        <p class="text-gray-900">${data.company_name}</p>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-medium text-gray-700">Applied Date</h4>
-                                        <p class="text-gray-900">${data.date_applied}</p>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-medium text-gray-700">Status</h4>
-                                        <p class="text-gray-900">${data.application_status}</p>
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <h4 class="font-medium text-gray-700">Documents</h4>
-                                    <div class="mt-2 space-y-2">
-                                        <a href="${data.cv_url}" target="_blank" class="text-blue-600 hover:text-blue-900">
-                                            <i class="fa fa-file-pdf"></i> View CV
-                                        </a>
-                                        ${data.cover_letter_url ? `
-                                            <br>
-                                            <a href="${data.cover_letter_url}" target="_blank" class="text-blue-600 hover:text-blue-900">
-                                                <i class="fa fa-file-pdf"></i> View Cover Letter
-                                            </a>
-                                        ` : ''}
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <h4 class="font-medium text-gray-700">Timeline</h4>
-                                    <div class="mt-2 space-y-2">
-                                        ${data.timeline.map(event => `
-                                            <div class="flex items-start">
-                                                <div class="flex-shrink-0">
-                                                    <div class="h-2 w-2 mt-2 rounded-full bg-blue-600"></div>
-                                                </div>
-                                                <div class="ml-3">
-                                                    <p class="text-sm text-gray-900">${event.description}</p>
-                                                    <p class="text-xs text-gray-500">${event.date}</p>
-                                                </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <h4 class="font-medium text-gray-700">Position</h4>
+                                                <p class="text-gray-900">${data.position}</p>
                                             </div>
-                                        `).join('')}
-                                    </div>
-                                </div>
-                            `;
+                                            <div>
+                                                <h4 class="font-medium text-gray-700">Company</h4>
+                                                <p class="text-gray-900">${data.company_name}</p>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-medium text-gray-700">Applied Date</h4>
+                                                <p class="text-gray-900">${data.date_applied}</p>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-medium text-gray-700">Status</h4>
+                                                <p class="text-gray-900">${data.application_status}</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <h4 class="font-medium text-gray-700">Documents</h4>
+                                            <div class="mt-2 space-y-2">
+                                                <a href="${data.cv_url}" target="_blank" class="text-blue-600 hover:text-blue-900">
+                                                    <i class="fa fa-file-pdf"></i> View CV
+                                                </a>
+                                                ${data.cover_letter_url ? `
+                                                    <br>
+                                                    <a href="${data.cover_letter_url}" target="_blank" class="text-blue-600 hover:text-blue-900">
+                                                        <i class="fa fa-file-pdf"></i> View Cover Letter
+                                                    </a>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <h4 class="font-medium text-gray-700">Timeline</h4>
+                                            <div class="mt-2 space-y-2">
+                                                ${data.timeline.map(event => `
+                                                    <div class="flex items-start">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="h-2 w-2 mt-2 rounded-full bg-blue-600"></div>
+                                                        </div>
+                                                        <div class="ml-3">
+                                                            <p class="text-sm text-gray-900">${event.description}</p>
+                                                            <p class="text-xs text-gray-500">${event.date}</p>
+                                                        </div>
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    `;
                     document.getElementById('jobDetailsModal').classList.remove('hidden');
                 });
         }
@@ -445,7 +445,7 @@
             };
 
             // Initialize for Add Application form
-            flatpickr("#date_applied", flatpickrConfig);
+            flatpickr("#date_applied_modal", flatpickrConfig);
 
             // Initialize for Edit Application form
             flatpickr(".edit-date-applied", flatpickrConfig);

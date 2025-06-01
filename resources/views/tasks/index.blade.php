@@ -53,8 +53,12 @@
                                     class="px-3 py-1 text-xs font-bold rounded-full {{ $badge }} shadow-sm border border-gray-200">{{ ucfirst(str_replace('_', ' ', $task->status)) }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap font-medium flex gap-2">
-                                <button class="text-blue-600 hover:text-blue-900" title="Edit"><i
-                                        class="fa fa-edit"></i></button>
+                                <a href="{{ route('tasks.show', $task) }}" class="text-blue-600 hover:text-blue-900" title="View Details">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a href="{{ route('tasks.edit', $task) }}" class="text-blue-600 hover:text-blue-900" title="Edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
                                 <button class="text-red-600 hover:text-red-900" title="Delete"><i
                                         class="fa fa-trash"></i></button>
                             </td>

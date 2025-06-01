@@ -33,6 +33,7 @@ class JobController extends Controller
             'result' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
         ]);
+        $validated['user_id'] = auth()->id();
         Job::create($validated);
         return redirect()->route('jobs.index')->with('success', 'Job created successfully!');
     }
@@ -60,6 +61,7 @@ class JobController extends Controller
             'result' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
         ]);
+        $validated['user_id'] = auth()->id();
         $job->update($validated);
         return redirect()->route('jobs.index')->with('success', 'Job updated successfully!');
     }

@@ -9,7 +9,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::orderBy('deadline')->get();
+        $tasks = Task::where('user_id', auth()->id())->orderBy('deadline')->get();
         return view('tasks.index', compact('tasks'));
     }
 
@@ -23,10 +23,44 @@ class TaskController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'deadline' => 'nullable|date',
+            'deadline' => 'nullable|string',
             'status' => 'required|in:pending,in_progress,done',
         ]);
-        \App\Models\Task::create($validated);
+        $validated['user_id'] = auth()->id();
+        if ($request->filled('deadline')) {
+            $deadline = \DateTime::createFromFormat('m/d/Y', $request->deadline);
+            if ($deadline) {
+                $validated['deadline'] = $deadline->format('Y-m-d');
+            }
+        }
+        Task::create($validated);
         return redirect()->route('tasks.index')->with('success', 'Task created successfully!');
+    }
+
+    public function update(Request $request, Task $task)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'deadline' => 'nullable|string',
+            'status' => 'required|in:pending,in_progress,done',
+        ]);
+        $validated['user_id'] = auth()->id();
+        if ($request->filled('deadline')) {
+            $deadline = \DateTime::createFromFormat('m/d/Y', $request->deadline);
+            if ($deadline) {
+                $validated['deadline'] = $deadline->format('Y-m-d');
+            }
+        }
+        $task->update($validated);
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully!');
+    }
+
+    public function show(Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            abort(403);
+        }
+        return view('tasks.show', compact('task'));
     }
 }

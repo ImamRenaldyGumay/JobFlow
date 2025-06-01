@@ -15,33 +15,13 @@
             <a href="{{ route('dashboard') }}"
                 class="flex items-center px-4 py-2 {{ request()->is('dashboard') ? 'bg-blue-600 text-white font-semibold shadow-md' : 'text-gray-700 hover:bg-blue-50' }} rounded-lg"><i
                     class="fa fa-th-large mr-3"></i>Dashboard</a>
-            <!-- Jobs with submenu -->
-            <div>
-                <button type="button" id="jobsMenuBtn"
-                    class="flex items-center w-full px-4 py-2 {{ request()->is('jobs*') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-blue-50' }} rounded-lg focus:outline-none justify-between">
-                    <span class="flex items-center"><i class="fa fa-briefcase mr-3"></i>Jobs</span>
-                    <svg id="jobsMenuArrow" class="w-4 h-4 ml-2 transition-transform" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div id="jobsSubMenu" class="ml-8 mt-1 space-y-1 {{ request()->is('jobs*') ? '' : 'hidden' }}">
-                    <a href="{{ route('jobs.index') }}"
-                        class="block px-2 py-1 {{ request()->is('jobs') ? 'bg-blue-100 text-blue-700 rounded font-semibold' : 'text-gray-600 hover:text-blue-600' }}">All
-                        Jobs</a>
-                    <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Add Job</a>
-                    <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Applied</a>
-                    <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Interview</a>
-                    <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Offer</a>
-                    <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Rejected</a>
-                </div>
-            </div>
+            <!-- Jobs menu tanpa submenu -->
+            <a href="{{ route('jobs.index') }}"
+                class="flex items-center px-4 py-2 {{ request()->is('jobs*') ? 'bg-blue-600 text-white font-semibold shadow-md' : 'text-gray-700 hover:bg-blue-50' }} rounded-lg"><i
+                    class="fa fa-briefcase mr-3"></i>Jobs</a>
             <a href="{{ route('tasks.index') }}"
                 class="flex items-center px-4 py-2 {{ request()->is('tasks*') ? 'bg-blue-600 text-white font-semibold shadow-md' : 'text-gray-700 hover:bg-blue-50' }} rounded-lg"><i
                     class="fa fa-tasks mr-3"></i>Tasks</a>
-            <a href="{{ route('companies.index') }}"
-                class="flex items-center px-4 py-2 {{ request()->is('companies*') ? 'bg-blue-600 text-white font-semibold shadow-md' : 'text-gray-700 hover:bg-blue-50' }} rounded-lg"><i
-                    class="fa fa-building mr-3"></i>Companies</a>
             <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"><i
                     class="fa fa-address-book mr-3"></i>Contacts</a>
             <a href="{{ route('calendar.index') }}"
@@ -51,8 +31,19 @@
                     class="fa fa-sticky-note mr-3"></i>Notes</a>
             <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"><i
                     class="fa fa-chart-line mr-3"></i>Analytics</a>
-            <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg"><i
-                    class="fa fa-cog mr-3"></i>Settings</a>
+            <a href="#" id="settingsMenuBtn"
+                class="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg justify-between">
+                <span><i class="fa fa-cog mr-3"></i>Settings</span>
+                <svg id="settingsMenuArrow" class="w-4 h-4 ml-2 transition-transform" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </a>
+            <div id="settingsSubMenu" class="ml-8 mt-1 space-y-1 hidden">
+                <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Profile</a>
+                <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Account</a>
+                <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Preferences</a>
+            </div>
         </nav>
     </div>
     <div class="mt-auto px-4 py-4 border-t">
@@ -68,5 +59,13 @@
     jobsMenuBtn && jobsMenuBtn.addEventListener('click', () => {
         jobsSubMenu.classList.toggle('hidden');
         jobsMenuArrow.classList.toggle('rotate-180');
+    });
+    // Sidebar submenu toggle for Settings
+    const settingsMenuBtn = document.getElementById('settingsMenuBtn');
+    const settingsSubMenu = document.getElementById('settingsSubMenu');
+    const settingsMenuArrow = document.getElementById('settingsMenuArrow');
+    settingsMenuBtn && settingsMenuBtn.addEventListener('click', () => {
+        settingsSubMenu.classList.toggle('hidden');
+        settingsMenuArrow.classList.toggle('rotate-180');
     });
 </script>
