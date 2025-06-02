@@ -36,12 +36,12 @@
                             placeholder="Password">
                     </div>
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                        <div class="flex items-center">
-                            <input id="remember_me" name="remember" type="checkbox"
+                        <div class="flex items-center opacity-50 cursor-not-allowed select-none">
+                            <input id="remember_me" name="remember" type="checkbox" disabled
                                 class="h-4 w-4 text-green-700 focus:ring-green-700 border-gray-300 rounded">
-                            <label for="remember_me" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                            <label for="remember_me" class="ml-2 block text-sm text-gray-400">Remember me</label>
                         </div>
-                        <a href="#" class="text-sm text-blue-700 hover:underline">Forgot password?</a>
+                        <span class="text-sm text-gray-400 cursor-not-allowed select-none">Forgot password?</span>
                     </div>
                     <button type="submit"
                         class="w-full bg-green-800 text-white py-2 rounded-md font-semibold hover:bg-green-900 transition">Sign
@@ -53,13 +53,13 @@
                     <div class="flex-grow border-t border-gray-200"></div>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-3 mb-6">
-                    <button
-                        class="flex-1 flex items-center justify-center border border-gray-300 rounded-md py-2 bg-white hover:bg-gray-50 transition">
+                    <button disabled
+                        class="flex-1 flex items-center justify-center border border-gray-300 rounded-md py-2 bg-gray-100 text-gray-400 cursor-not-allowed">
                         <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"
                             class="w-5 h-5 mr-2"> Sign in with Google
                     </button>
-                    <button
-                        class="flex-1 flex items-center justify-center border border-gray-300 rounded-md py-2 bg-white hover:bg-gray-50 transition">
+                    <button disabled
+                        class="flex-1 flex items-center justify-center border border-gray-300 rounded-md py-2 bg-gray-100 text-gray-400 cursor-not-allowed">
                         <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
                             <path
                                 d="M16.365 1.43c0 1.14-.93 2.07-2.07 2.07-.06 0-.12 0-.18-.01.01-.13.02-.26.02-.39 0-1.14.93-2.07 2.07-2.07.06 0 .12 0 .18.01-.01.13-.02.26-.02.39zm2.52 4.36c-1.36-.08-2.51.78-3.16.78-.65 0-1.65-.76-2.72-.74-1.4.02-2.7.81-3.42 2.06-1.46 2.53-.37 6.28 1.04 8.34.7 1.01 1.53 2.14 2.62 2.1 1.05-.04 1.45-.68 2.72-.68 1.27 0 1.63.68 2.73.66 1.13-.02 1.84-1.03 2.53-2.04.44-.65.62-.99.97-1.74-2.56-.98-2.95-4.61.56-5.36-.11-.36-.32-.7-.62-.98-.5-.46-1.19-.7-1.85-.66zm-2.13 13.13c-.54 0-1.08.16-1.52.16-.44 0-.98-.15-1.61-.15-.66 0-1.36.17-2.14.17-1.09 0-2.18-.62-2.89-1.68-.99-1.47-1.4-3.57-1.4-3.57s1.29-.5 2.6-.5c.44 0 .86.06 1.25.17.39.11.74.28 1.07.5.33.22.62.5.87.82.25.32.46.68.62 1.07.16.39.28.8.36 1.22.08.42.12.85.12 1.29 0 .44-.04.87-.12 1.29-.08.42-.2.83-.36 1.22-.16.39-.37.75-.62 1.07-.25.32-.54.6-.87.82-.33.22-.68.39-1.07.5-.39.11-.81.17-1.25.17-1.31 0-2.6-.5-2.6-.5s.41-2.1 1.4-3.57c.71-1.06 1.8-1.68 2.89-1.68.78 0 1.48.17 2.14.17.63 0 1.17-.15 1.61-.15.44 0 .98.16 1.52.16.44 0 .98-.15 1.61-.15.66 0 1.36.17 2.14.17 1.09 0 2.18-.62 2.89-1.68.99-1.47 1.4-3.57 1.4-3.57s-1.29-.5-2.6-.5c-.44 0-.86.06-1.25.17-.39.11-.74.28-1.07.5-.33.22-.62.5-.87.82-.25.32-.46.68-.62 1.07-.16.39-.28.8-.36 1.22-.08.42-.12.85-.12 1.29 0 .44.04.87.12 1.29.08.42.2.83.36 1.22.16.39.37.75.62 1.07.25.32.54.6.87.82.33.22.68.39 1.07.5.39.11.81.17 1.25.17 1.31 0 2.6-.5 2.6-.5s-.41-2.1-1.4-3.57c-.71-1.06-1.8-1.68-2.89-1.68z" />

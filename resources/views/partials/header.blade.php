@@ -22,7 +22,9 @@
         <!-- User Dropdown -->
         <div class="flex items-center space-x-2 relative" id="userDropdownWrapper">
             <div id="userDropdownBtn"
-                class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 font-bold text-lg cursor-pointer relative">
+                class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 font-bold text-lg cursor-pointer relative overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=3b82f6&color=fff"
+                    alt="User Avatar" class="w-8 h-8 object-cover rounded-full">
                 <span class="absolute bottom-0 right-0 w-3 h-3 bg-white rounded-full flex items-center justify-center">
                     <span class="w-2 h-2 bg-green-500 rounded-full"></span>
                 </span>

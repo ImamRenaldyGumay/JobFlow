@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('companies', \App\Http\Controllers\CompanyController::class);
     Route::resource('tasks', TaskController::class);
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 });

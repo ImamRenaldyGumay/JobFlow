@@ -40,9 +40,10 @@
                 </svg>
             </a>
             <div id="settingsSubMenu" class="ml-8 mt-1 space-y-1 hidden">
-                <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Profile</a>
-                <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Account</a>
-                <a href="#" class="block px-2 py-1 text-gray-600 hover:text-blue-600">Preferences</a>
+                <a href="{{ route('profile.show') }}"
+                    class="block px-2 py-1 text-gray-600 hover:text-blue-600">Profile</a>
+                <a href="#" class="block px-2 py-1 text-gray-400 cursor-not-allowed">Account</a>
+                <a href="#" class="block px-2 py-1 text-gray-400 cursor-not-allowed">Preferences</a>
             </div>
         </nav>
     </div>
